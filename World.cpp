@@ -3,37 +3,43 @@
 
 World::World()
 {
-	//TODO
+	Room* pEntrance = new Room("Entrance", "Empty room with one chair");
+
+	entities.push_back(pEntrance);
+
+	pPlayer = new Player("Pepe", "Person", pEntrance);
+
+	entities.push_back(pPlayer);
 }
 
 
 void World::Run()
 {
-	cout << "Welcome to Zork\n";
-	string command;
+	cout << "Welcome to Zork\n\n";
+	string action;
 
 	while (true)
 	{
 		//Getting user input
-		getline(cin, command);
+		getline(cin, action);
 
-		if (!command.empty()) {
+		if (!action.empty()) {
 
 			//Lowercasing input to improve the comparison
-			transform(command.begin(), command.end(), command.begin(), ::tolower);
+			transform(action.begin(), action.end(), action.begin(), ::tolower);
 
 			//Removing empty spaces and separate words
-			istringstream buffer(command);
+			istringstream buffer(action);
 			vector<string> tokens{ istream_iterator<string>{buffer}, istream_iterator<string>{} };
 
 			//Stop playing
-			if (tokens[0] == "quit" || tokens[0] == "leave")
+			if (tokens[0] == "quit" || tokens[0] == "leave" || tokens[0] == "exit")
 			{
 				cout << "Good Bye!!";
 				break;
 			}
 
-			if (!ExecuteCommand(tokens))
+			if (!ExecuteAction(tokens))
 			{
 				cout << "Incorrect command\n";
 			}
@@ -44,15 +50,22 @@ void World::Run()
 	}
 }
 
-bool World::ExecuteCommand(vector<string>& command)
+bool World::ExecuteAction(vector<string>& action)
 {
-	if (command.size() == 0)
+	if (action.size() == 0)
 	{
 		return false;
 	}
 	else
 	{
-		cout << "Correct command: Execute " << command[0] << "\n";
+				
+		if (!pPlayer->PerformAction(action))
+		{
+			return false;
+		}
+
+		cout << "\n\n";
+		
 		return true;
 	}
 }

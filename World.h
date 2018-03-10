@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iterator>
 #include <algorithm>
+#include "Entity.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -13,11 +15,11 @@ class World
 {
 
 private:
-	//TODO
-
+	vector<Entity*> entities;
+	Player* pPlayer;
 
 public:
 	World();
 	void Run();
-	bool ExecuteCommand(vector<string>& command);
+	bool ExecuteAction(vector<string>& action);
 };
