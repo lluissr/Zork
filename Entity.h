@@ -17,10 +17,11 @@ protected:
 	EntityType m_Type;
 	string m_Name;
 	string m_Description;
-	list<Entity*> contains;
+	list<Entity*> m_Contains;
 
 public:
 
 	Entity(string name, string description);
 	//virtual void Update();
+	EntityType GetType();
 };
