@@ -10,4 +10,5 @@ private:
 public:
 	Player(string name, string description, Room* room);
 	void PerformAction(vector<string>& action);
+	Entity* GetItem(string name);
 };

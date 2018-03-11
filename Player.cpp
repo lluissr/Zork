@@ -60,8 +60,41 @@ void Player::PerformAction(vector<string>& action)
 			cout << "Taken.\n";
 		}
 	}
+	//Drop Item
+	else if ((action[0] == "drop" || action[0] == "release") && action.size() > 1)
+	{
+		Entity* item = GetItem(action[1]);
+		if (item == NULL)
+		{
+			cout << "You don't have " << action[1] << " in your inventory.\n";
+		}
+		else
+		{
+			m_Location->AddElementInRoom(item);
+			cout << "Dropped.\n";
+		}
+	}
 	else
 	{
 		cout << "Incorrect command\n";
 	}
+}
+
+
+Entity* Player::GetItem(string name)
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == ITEM)
+		{
+			string itemName = entity->GetName();
+			if (itemName == name)
+			{
+				m_Contains.remove(entity);
+				return entity;
+			}
+		}
+	}
+
+	return NULL;
 }

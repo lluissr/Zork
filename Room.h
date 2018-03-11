@@ -13,5 +13,5 @@ public:
 	void Look();
 	void AddElementInRoom(Entity* exit);
 	Exit* GetExit(string direction);
-	Item* GetItem(string itemName);
+	Entity* GetItem(string itemName);
 };

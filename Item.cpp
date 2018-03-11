@@ -10,5 +10,5 @@ Item::Item(string name, string description, Room* room) :Entity(name, descriptio
 
 void Item::Look()
 {
-	cout << "\nThere is a " << m_Name << " " << m_Description << "\n";
+	cout << "\nThere is a " << m_Name << " " << m_Description;
 }

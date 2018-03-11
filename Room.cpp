@@ -56,18 +56,17 @@ Exit* Room::GetExit(string direction)
 }
 
 
-Item* Room::GetItem(string name)
+Entity* Room::GetItem(string name)
 {
 	for each (Entity* entity in m_Contains)
 	{
 		if (entity->GetType() == ITEM)
 		{
-			Item* pItem = (Item*)entity;
-			string itemName = pItem->GetName();
+			string itemName = entity->GetName();
 			if (itemName == name)
 			{
-				m_Contains.remove(pItem);
-				return pItem;
+				m_Contains.remove(entity);
+				return entity;
 			}
 		}
 	}
