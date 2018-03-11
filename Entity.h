@@ -26,4 +26,5 @@ public:
 	EntityType GetType();
 	string GetName();
 	string GetDescription();
+	void AddEntity(Entity* entity);
 };

@@ -48,7 +48,7 @@ void Player::PerformAction(vector<string>& action)
 	//Get Item
 	else if ((action[0] == "take" || action[0] == "get") && action.size() > 1)
 	{
-		Entity* item = m_Location->GetItem(action[1]);
+		Entity* item = m_Location->GetItem(action[1], true);
 
 		if (item == NULL)
 		{
@@ -70,10 +70,11 @@ void Player::PerformAction(vector<string>& action)
 		}
 		else
 		{
-			m_Location->AddElementInRoom(item);
+			m_Location->AddEntity(item);
 			cout << "Dropped.\n";
 		}
 	}
+	//Check inventory
 	else if (action[0] == "inventory")
 	{
 		if (m_Contains.size() == 0)
@@ -90,6 +91,68 @@ void Player::PerformAction(vector<string>& action)
 					cout << "\n" << entity->GetName() << ": " << entity->GetDescription();
 				}
 			}
+		}
+	}
+	//Open Objects
+	else if (action[0] == "open" && action.size() > 1)
+	{
+		bool found = false;
+		for each (Entity* entity in m_Contains)
+		{
+			if (entity->GetType() == ITEM)
+			{
+				string itemName = entity->GetName();
+				if (itemName == action[1])
+				{
+					Item* item = (Item*)entity;
+					item->Open();
+					found = true;
+				}
+			}
+		}
+
+		Entity* roomEntity = m_Location->GetItem(action[1], false);
+		if (roomEntity != NULL)
+		{
+			Item* roomItem = (Item*)roomEntity;
+			roomItem->Open();
+			found = true;
+		}
+
+		if (!found)
+		{
+			cout << "There is not " << action[1] << " in the room or in your inventory.";
+		}
+	}
+	//Close Objects
+	else if (action[0] == "close" && action.size() > 1)
+	{
+		bool found = false;
+		for each (Entity* entity in m_Contains)
+		{
+			if (entity->GetType() == ITEM)
+			{
+				string itemName = entity->GetName();
+				if (itemName == action[1])
+				{
+					Item* item = (Item*)entity;
+					item->Close();
+					found = true;
+				}
+			}
+		}
+
+		Entity* roomEntity = m_Location->GetItem(action[1], false);
+		if (roomEntity != NULL)
+		{
+			Item* roomItem = (Item*)roomEntity;
+			roomItem->Close();
+			found = true;
+		}
+
+		if (!found)
+		{
+			cout << "There is not " << action[1] << " in the room or in your inventory.";
 		}
 	}
 	else

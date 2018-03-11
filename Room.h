@@ -11,7 +11,6 @@ class Room : public Entity
 public:
 	Room(string name, string description);
 	void Look();
-	void AddElementInRoom(Entity* exit);
 	Exit* GetExit(string direction);
-	Entity* GetItem(string itemName);
+	Entity* GetItem(string itemName, bool remove);
 };

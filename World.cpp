@@ -23,9 +23,11 @@ World::World()
 	entities.push_back(pExit2);
 
 	//Items
-	Item* pBread = new Item("bread", "very nutritional", pKitchen);
-	Item* pBottle = new Item("bottle", "full of water", pLivingRoom);
+	Item* pBox = new Item("box", "made of steel", pKitchen, NULL, true, false);
+	Item* pBread = new Item("bread", "very nutritional", NULL, pBox, false, false);
+	Item* pBottle = new Item("bottle", "full of water", pLivingRoom, NULL, true, false);
 
+	entities.push_back(pBox);
 	entities.push_back(pBread);
 	entities.push_back(pBottle);
 

@@ -9,8 +9,8 @@ Exit::Exit(string name, string description, Direction direction, Room* source , 
 	m_Destination = destination;
 	m_Closed = closed;
 
-	m_Source->AddElementInRoom(this);
-	m_Destination->AddElementInRoom(this);
+	m_Source->AddEntity(this);
+	m_Destination->AddEntity(this);
 }
 
 

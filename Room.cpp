@@ -31,12 +31,6 @@ void Room::Look()
 }
 
 
-void Room::AddElementInRoom(Entity* entity)
-{
-	m_Contains.push_back(entity);
-}
-
-
 Exit* Room::GetExit(string direction)
 {
 	for each (Entity* entity in m_Contains)
@@ -56,7 +50,7 @@ Exit* Room::GetExit(string direction)
 }
 
 
-Entity* Room::GetItem(string name)
+Entity* Room::GetItem(string name, bool remove)
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -65,8 +59,20 @@ Entity* Room::GetItem(string name)
 			string itemName = entity->GetName();
 			if (itemName == name)
 			{
-				m_Contains.remove(entity);
+				if (remove) 
+				{
+					m_Contains.remove(entity);
+				}
 				return entity;
+			}
+			else
+			{
+				Item* item = (Item*)entity;
+				Entity* insideItem = item->GetContainingItem(name);
+				if (insideItem != NULL)
+				{
+					return insideItem;
+				}
 			}
 		}
 	}

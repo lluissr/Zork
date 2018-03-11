@@ -24,3 +24,9 @@ string Entity::GetDescription()
 {
 	return m_Description;
 }
+
+
+void Entity::AddEntity(Entity* entity)
+{
+	m_Contains.push_back(entity);
+} 
