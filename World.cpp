@@ -1,5 +1,7 @@
 #include "World.h"
 #include "Exit.h"
+#include "Item.h"
+
 
 World::World()
 {
@@ -20,6 +22,13 @@ World::World()
 	entities.push_back(pExit);
 	entities.push_back(pExit2);
 
+	//Items
+	Item* pBread = new Item("bread", "very nutritional", pKitchen);
+	Item* pBottle = new Item("bottle", "full of water", pLivingRoom);
+
+	entities.push_back(pBread);
+	entities.push_back(pBottle);
+
 	//Player
 	pPlayer = new Player("Pepe", "Person", pEntrance);
 
@@ -38,6 +47,7 @@ void World::Run()
 	while (true)
 	{
 		//Getting user input
+		cout << ">";
 		getline(cin, action);
 
 		if (!action.empty()) {
@@ -56,10 +66,7 @@ void World::Run()
 				break;
 			}
 
-			if (!ExecuteAction(tokens))
-			{
-				cout << "Incorrect command\n";
-			}
+			ExecuteAction(tokens);
 		}
 		else {
 			cout << "Write something\n";
@@ -67,22 +74,11 @@ void World::Run()
 	}
 }
 
-bool World::ExecuteAction(vector<string>& action)
+void World::ExecuteAction(vector<string>& action)
 {
-	if (action.size() == 0)
+	if (action.size() > 0)
 	{
-		return false;
-	}
-	else
-	{
-
-		if (!pPlayer->PerformAction(action))
-		{
-			return false;
-		}
-
+		pPlayer->PerformAction(action);
 		cout << "\n\n";
-
-		return true;
 	}
 }

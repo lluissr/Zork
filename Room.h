@@ -1,8 +1,10 @@
 #pragma once
 #include "Entity.h"
 #include "Exit.h"
+#include "Item.h"
 
 class Exit;
+class Item;
 
 class Room : public Entity
 {
@@ -11,5 +13,5 @@ public:
 	void Look();
 	void AddElementInRoom(Entity* exit);
 	Exit* GetExit(string direction);
-	string GetName();
+	Item* GetItem(string itemName);
 };

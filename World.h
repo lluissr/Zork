@@ -21,5 +21,5 @@ private:
 public:
 	World();
 	void Run();
-	bool ExecuteAction(vector<string>& action);
+	void ExecuteAction(vector<string>& action);
 };

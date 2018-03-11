@@ -8,16 +8,15 @@ Player::Player(string name, string description, Room* room) :Entity(name, descri
 }
 
 
-bool Player::PerformAction(vector<string>& action)
+void Player::PerformAction(vector<string>& action)
 {
 
 	//Look something
 	if (action[0] == "look")
 	{
 		m_Location->Look();
-		return true;
 	}
-	//Go in a specifiv direction
+	//Go in a specific direction
 	else if (action[0] == "go" || action[0] == "north" || action[0] == "east" || action[0] == "west" || action[0] == "south")
 	{
 		if (action[0] == "go" && action.size() > 1)
@@ -25,23 +24,44 @@ bool Player::PerformAction(vector<string>& action)
 			action[0] = action[1];
 		}
 
-		Exit* exit = m_Location->GetExit(action[0]);
-		
-		if (exit == NULL)
+		if (action[0] == "north" || action[0] == "east" || action[0] == "west" || action[0] == "south")
 		{
-			cout << "There is no exit at " << action[0];
-			return true;
+
+			Exit* exit = m_Location->GetExit(action[0]);
+
+			if (exit == NULL)
+			{
+				cout << "There is no exit at " << action[0];
+			}
+			else
+			{
+				m_Location = exit->GetDestinationRoom(m_Location);
+				cout << "You take the exit and you get to the " << m_Location->GetName() << "\n";
+				m_Location->Look();
+			}
 		}
 		else
 		{
-			m_Location = exit->GetDestinationRoom(m_Location);
-			cout << "You take the exit and you get to the " << m_Location->GetName() << "\n";
-			m_Location->Look();
-			return true;
+			cout << "This is not a valid direction.\n";
+		}
+	}
+	//Get Item
+	else if ((action[0] == "take" || action[0] == "get") && action.size() > 1)
+	{
+		Entity* item = m_Location->GetItem(action[1]);
+
+		if (item == NULL)
+		{
+			cout << "There is not " << action[1] << ".\n";
+		}
+		else
+		{
+			m_Contains.push_back(item);
+			cout << "Taken.\n";
 		}
 	}
 	else
 	{
-		return false;
+		cout << "Incorrect command\n";
 	}
 }

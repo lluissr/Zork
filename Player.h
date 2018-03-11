@@ -9,5 +9,5 @@ private:
 	Room* m_Location;
 public:
 	Player(string name, string description, Room* room);
-	bool PerformAction(vector<string>& action);
+	void PerformAction(vector<string>& action);
 };

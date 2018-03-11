@@ -1,7 +1,7 @@
 #include "Room.h"
 
 
-Room::Room(string name, string description): Entity(name, description)
+Room::Room(string name, string description) : Entity(name, description)
 {
 	m_Type = ROOM;
 }
@@ -10,7 +10,7 @@ Room::Room(string name, string description): Entity(name, description)
 void Room::Look()
 {
 	cout << "\n" << m_Name << "\n" << m_Description << ".";
-	
+
 	for each (Entity* entity in m_Contains)
 	{
 		if (entity->GetType() == EXIT)
@@ -19,42 +19,58 @@ void Room::Look()
 			pExit->LookFromRoom(this);
 		}
 	}
+
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == ITEM)
+		{
+			Item* pItem = (Item*)entity;
+			pItem->Look();
+		}
+	}
 }
 
 
-void Room::AddElementInRoom(Entity* exit)
+void Room::AddElementInRoom(Entity* entity)
 {
-	m_Contains.push_back(exit);
+	m_Contains.push_back(entity);
 }
 
 
 Exit* Room::GetExit(string direction)
 {
-	if (direction == "north" || direction == "east" || direction == "west" || direction == "south")
+	for each (Entity* entity in m_Contains)
 	{
-		for each (Entity* entity in m_Contains)
+		if (entity->GetType() == EXIT)
 		{
-			if (entity->GetType() == EXIT)
+			Exit* pExit = (Exit*)entity;
+			string exitDirection = pExit->GetExitDirection(this);
+			if (exitDirection == direction)
 			{
-				Exit* pExit = (Exit*)entity;
-				string exitdirection = pExit->GetExitDirection(this);
-				if (exitdirection == direction)
-				{
-					return pExit;
-				}
+				return pExit;
 			}
 		}
-	}
-	else
-	{
-		cout << "This is not a valid direction.\n";
 	}
 
 	return NULL;
 }
 
 
-string Room::GetName()
+Item* Room::GetItem(string name)
 {
-	return m_Name;
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == ITEM)
+		{
+			Item* pItem = (Item*)entity;
+			string itemName = pItem->GetName();
+			if (itemName == name)
+			{
+				m_Contains.remove(pItem);
+				return pItem;
+			}
+		}
+	}
+
+	return NULL;
 }

@@ -7,7 +7,7 @@
 using namespace std;
 
 
-enum EntityType {ROOM, EXIT, PLAYER};
+enum EntityType {ROOM, EXIT, PLAYER, ITEM};
 
 
 class Entity
@@ -24,4 +24,5 @@ public:
 	Entity(string name, string description);
 	//virtual void Update();
 	EntityType GetType();
+	string GetName();
 };
