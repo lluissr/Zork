@@ -15,5 +15,6 @@ public:
 	void Open();
 	void Close();
 	bool IsOpen();
+	bool IsOpenable();
 	Entity* GetContainingItem(string name);
 };

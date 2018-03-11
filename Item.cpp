@@ -85,6 +85,12 @@ bool Item::IsOpen()
 }
 
 
+bool Item::IsOpenable()
+{
+	return m_Openable;
+}
+
+
 Entity* Item::GetContainingItem(string name)
 {
 	if (m_Openable && m_IsOpen)

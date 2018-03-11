@@ -12,7 +12,7 @@ private:
 	void Go(vector<string>& action);
 	void Take(vector<string>& action);
 	void Drop(vector<string>& action);
-	void Inventory(vector<string>& action);
+	void Inventory();
 	void Open(vector<string>& action);
 	void Close(vector<string>& action);
 public:

@@ -34,7 +34,7 @@ void Player::PerformAction(vector<string>& action)
 	//Check inventory
 	else if (action[0] == "inventory")
 	{
-		Inventory(action);
+		Inventory();
 	}
 	//Open Objects
 	else if (action[0] == "open" && action.size() > 1)
@@ -175,15 +175,22 @@ void Player::Drop(vector<string>& action)
 			}
 
 			Item* item = (Item*)containerItem;
-			if (item->IsOpen())
+			if (item->IsOpenable())
 			{
-				containerItem->AddEntity(playerItem);
-				m_Contains.remove(playerItem);
-				cout << "You put the " << action[1] << " into the " << action[3] << ".";
-			}
+				if (item->IsOpen())
+				{
+					containerItem->AddEntity(playerItem);
+					m_Contains.remove(playerItem);
+					cout << "You put the " << action[1] << " into the " << action[3] << ".";
+				}
+				else
+				{
+					cout << "The " << action[3] << " is closed. Open it first.";
+				}
+			} 
 			else
 			{
-				cout << "The " << action[3] << " is closed. Open it first.";
+				cout << "You can't put anything inside " << action[3] << ".";
 			}
 		}
 		else 
@@ -194,7 +201,7 @@ void Player::Drop(vector<string>& action)
 }
 
 
-void Player::Inventory(vector<string>& action)
+void Player::Inventory()
 {
 	if (m_Contains.size() == 0)
 	{
