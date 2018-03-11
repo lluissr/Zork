@@ -13,7 +13,14 @@ EntityType Entity::GetType()
 	return m_Type;
 }
 
+
 string Entity::GetName()
 {
 	return m_Name;
+}
+
+
+string Entity::GetDescription()
+{
+	return m_Description;
 }

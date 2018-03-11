@@ -74,6 +74,24 @@ void Player::PerformAction(vector<string>& action)
 			cout << "Dropped.\n";
 		}
 	}
+	else if (action[0] == "inventory")
+	{
+		if (m_Contains.size() == 0)
+		{
+			cout << "Your inventory is empty";
+		}
+		else
+		{
+			cout << "You are carrying:";
+			for each (Entity* entity in m_Contains)
+			{
+				if (entity->GetType() == ITEM)
+				{
+					cout << "\n" << entity->GetName() << ": " << entity->GetDescription();
+				}
+			}
+		}
+	}
 	else
 	{
 		cout << "Incorrect command\n";

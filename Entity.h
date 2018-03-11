@@ -25,4 +25,5 @@ public:
 	//virtual void Update();
 	EntityType GetType();
 	string GetName();
+	string GetDescription();
 };
