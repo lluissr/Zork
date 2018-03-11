@@ -13,4 +13,6 @@ public:
 	void Look();
 	Exit* GetExit(string direction);
 	Entity* GetItem(string itemName, bool remove);
+	void OpenDoor();
+	void CloseDoor();
 };

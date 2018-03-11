@@ -104,9 +104,16 @@ void Player::Go(vector<string>& action)
 		}
 		else
 		{
-			m_Location = exit->GetDestinationRoom(m_Location);
-			cout << "You take the exit and you get to the " << m_Location->GetName() << "\n";
-			m_Location->Look();
+			if (exit->IsOpen())
+			{
+				m_Location = exit->GetDestinationRoom(m_Location);
+				cout << "You take the exit and you get to the " << m_Location->GetName() << "\n";
+				m_Location->Look();
+			}
+			else
+			{
+				cout << "The door is closed";
+			}
 		}
 	}
 	else
@@ -223,40 +230,55 @@ void Player::Inventory()
 
 void Player::Open(vector<string>& action)
 {
-	Entity* entity = GetItem(action[1], false);
-	
-	if (entity == NULL) {
-		entity = m_Location->GetItem(action[1], false);
-	}
-
-	if (entity == NULL)
+	if (action[1] != "door")
 	{
-		cout << "There is no " << action[1] << " in the room or in your inventory.";
+		Entity* entity = GetItem(action[1], false);
+
+		if (entity == NULL) {
+			entity = m_Location->GetItem(action[1], false);
+		}
+
+		if (entity == NULL)
+		{
+			cout << "There is no " << action[1] << " in the room or in your inventory.";
+		}
+		else
+		{
+			Item* item = (Item*)entity;
+			item->Open();
+		}
 	}
 	else
 	{
-		Item* item = (Item*)entity;
-		item->Open();
+		m_Location->OpenDoor();
 	}
 }
 
 
 void Player::Close(vector<string>& action)
 {
-	Entity* entity = GetItem(action[1], false);
-
-	if (entity == NULL) {
-		entity = m_Location->GetItem(action[1], false);
-	}
-
-	if (entity == NULL)
+	if (action[1] != "door")
 	{
-		cout << "There is no " << action[1] << " in the room or in your inventory.";
+
+		Entity* entity = GetItem(action[1], false);
+
+		if (entity == NULL) {
+			entity = m_Location->GetItem(action[1], false);
+		}
+
+		if (entity == NULL)
+		{
+			cout << "There is no " << action[1] << " in the room or in your inventory.";
+		}
+		else
+		{
+			Item* item = (Item*)entity;
+			item->Close();
+		}
 	}
 	else
 	{
-		Item* item = (Item*)entity;
-		item->Close();
+		m_Location->CloseDoor();
 	}
 }
 

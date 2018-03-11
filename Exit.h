@@ -12,12 +12,17 @@ private:
 	Direction m_Direction;
 	Room* m_Source;
 	Room* m_Destination;
-	bool m_Closed;
+	bool m_IsOpen;
+	bool m_IsLocked;
+	bool m_IsLockable;
 
 public:
-	Exit(string name, string description, Direction direction, Room* source, Room* destination, bool closed);
-	void LookFromRoom(Room* room);
+	Exit(string name, string description, Direction direction, Room* source, Room* destination, bool open, bool locked, bool lockable);
+	void Look(Room* room);
 	string GetExitDirection(Room* room);
 	Room* GetDestinationRoom(Room* room);
+	bool IsOpen();
+	bool Open();
+	bool Close();
 };
 

@@ -16,8 +16,8 @@ World::World()
 	entities.push_back(pKitchen);
 
 	//Exits
-	Exit* pExit = new Exit("Door", "made of wood", NORTH, pEntrance, pLivingRoom, false);
-	Exit* pExit2 = new Exit("Door", "made of plastic", WEST, pLivingRoom, pKitchen, false);
+	Exit* pExit = new Exit("door", "made of wood", NORTH, pEntrance, pLivingRoom, false, false, true);
+	Exit* pExit2 = new Exit("passage", "", WEST, pLivingRoom, pKitchen, true, false, false);
 	
 	entities.push_back(pExit);
 	entities.push_back(pExit2);
@@ -26,10 +26,12 @@ World::World()
 	Item* pBox = new Item("box", "made of steel", pKitchen, NULL, true, false);
 	Item* pBread = new Item("bread", "very nutritional", NULL, pBox, false, false);
 	Item* pBottle = new Item("bottle", "full of water", pLivingRoom, NULL, true, false);
+	Item* pKey = new Item("key", "", pEntrance, NULL, false, false);
 
 	entities.push_back(pBox);
 	entities.push_back(pBread);
 	entities.push_back(pBottle);
+	entities.push_back(pKey);
 
 	//Player
 	pPlayer = new Player("Pepe", "Person", pEntrance);

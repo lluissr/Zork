@@ -16,7 +16,7 @@ void Room::Look()
 		if (entity->GetType() == EXIT)
 		{
 			Exit* pExit = (Exit*)entity;
-			pExit->LookFromRoom(this);
+			pExit->Look(this);
 		}
 	}
 
@@ -76,6 +76,40 @@ Entity* Room::GetItem(string name, bool remove)
 			}
 		}
 	}
-
 	return NULL;
+}
+
+
+void Room::OpenDoor()
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == EXIT)
+		{
+			Exit* pExit = (Exit*)entity;
+			if (pExit->Open())
+			{
+				return;
+			}
+		}
+	}
+
+	cout << "There is no door in the room that can be open";
+}
+
+
+void Room::CloseDoor()
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == EXIT)
+		{
+			Exit* pExit = (Exit*)entity;
+			if (pExit->Close())
+			{
+				return;
+			}
+		}
+	}
+	cout << "There is no door in the room that can be closed";
 }
