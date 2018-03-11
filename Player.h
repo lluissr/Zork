@@ -7,7 +7,7 @@ class Player : public Entity
 {
 private:
 	Room* m_Location;
-	Entity* GetItem(string name);
+	Entity* GetItem(string name, bool remove);
 	void Look(vector<string>& action);
 	void Go(vector<string>& action);
 	void Take(vector<string>& action);

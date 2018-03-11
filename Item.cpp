@@ -20,6 +20,15 @@ Item::Item(string name, string description, Room* room, Item* container, bool op
 void Item::Look()
 {
 	cout << "\nThere is a " << m_Name << " " << m_Description;
+	if (m_Contains.size() > 0 && m_IsOpen)
+	{
+		cout << "\nThe " << m_Name << " is open:";
+		for each (Entity* entity in m_Contains)
+		{
+			Item* item = (Item*)entity;
+			item->Look();
+		}
+	}
 }
 
 
@@ -67,6 +76,12 @@ void Item::Close()
 	{
 		cout << "You can't close this";
 	}
+}
+
+
+bool Item::IsOpen()
+{
+	return m_IsOpen;
 }
 
 

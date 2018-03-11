@@ -14,5 +14,6 @@ public:
 	void Look();
 	void Open();
 	void Close();
+	bool IsOpen();
 	Entity* GetContainingItem(string name);
 };

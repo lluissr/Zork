@@ -27,7 +27,7 @@ void Player::PerformAction(vector<string>& action)
 		Take(action);
 	}
 	//Drop Item
-	else if ((action[0] == "drop" || action[0] == "release") && action.size() > 1)
+	else if ((action[0] == "drop" || action[0] == "release" || action[0] == "put") && action.size() > 1)
 	{
 		Drop(action);
 	}
@@ -59,7 +59,30 @@ void Player::PerformAction(vector<string>& action)
 
 void Player::Look(vector<string>& action)
 {
-	m_Location->Look();
+	//Look arround
+	if (action.size() == 1)
+	{
+		m_Location->Look();
+	}
+	//Look specific object
+	else if (action.size() > 1)
+	{
+		Entity* entity = GetItem(action[1], false);
+
+		if (entity == NULL) {
+			entity = m_Location->GetItem(action[1], false);
+		}
+
+		if (entity == NULL)
+		{
+			cout << "There is no " << action[1] << ".";
+		}
+		else
+		{
+			Item* item = (Item*)entity;
+			item->Look();
+		}
+	}
 }
 
 
@@ -111,15 +134,55 @@ void Player::Take(vector<string>& action)
 
 void Player::Drop(vector<string>& action)
 {
-	Entity* item = GetItem(action[1]);
-	if (item == NULL)
+	//Drop something into room
+	if (action.size() == 2)
 	{
-		cout << "You don't have " << action[1] << " in your inventory.\n";
+		Entity* item = GetItem(action[1], true);
+		if (item == NULL)
+		{
+			cout << "You don't have " << action[1] << " in your inventory.\n";
+		}
+		else
+		{
+			m_Location->AddEntity(item);
+			cout << "Dropped.\n";
+		}
 	}
-	else
+	//Drop something into something
+	else if (action.size() == 4)
 	{
-		m_Location->AddEntity(item);
-		cout << "Dropped.\n";
+		Entity* playerItem = GetItem(action[1], false);
+		if (playerItem == NULL)
+		{
+			cout << "You don't have " << action[1] << " in your inventory.\n";
+			return;
+		}
+
+		Entity* containerItem = NULL;
+		containerItem = GetItem(action[3], false);
+
+		if (containerItem == NULL) {
+			Entity* roomEntity = m_Location->GetItem(action[3], false);
+
+			if (roomEntity == NULL)
+			{
+				cout << "There is no " << action[3] << " in the room or in your inventory.";
+				return;
+			}
+			containerItem = roomEntity;
+		}
+
+		Item* item = (Item*)containerItem;
+		if (item->IsOpen()) 
+		{
+			containerItem->AddEntity(playerItem);
+			m_Contains.remove(playerItem);
+			cout << "You put the " << action[1] << " into the " << action[3] << ".";
+		}
+		else 
+		{
+			cout << "The " << action[3] << " is closed. Open it first.";
+		}
 	}
 }
 
@@ -146,69 +209,45 @@ void Player::Inventory(vector<string>& action)
 
 void Player::Open(vector<string>& action)
 {
-	bool found = false;
-	for each (Entity* entity in m_Contains)
-	{
-		if (entity->GetType() == ITEM)
-		{
-			string itemName = entity->GetName();
-			if (itemName == action[1])
-			{
-				Item* item = (Item*)entity;
-				item->Open();
-				found = true;
-			}
-		}
+	Entity* entity = GetItem(action[1], false);
+	
+	if (entity == NULL) {
+		entity = m_Location->GetItem(action[1], false);
 	}
 
-	Entity* roomEntity = m_Location->GetItem(action[1], false);
-	if (roomEntity != NULL)
+	if (entity == NULL)
 	{
-		Item* roomItem = (Item*)roomEntity;
-		roomItem->Open();
-		found = true;
+		cout << "There is no " << action[1] << " in the room or in your inventory.";
 	}
-
-	if (!found)
+	else
 	{
-		cout << "There is not " << action[1] << " in the room or in your inventory.";
+		Item* item = (Item*)entity;
+		item->Open();
 	}
 }
 
 
 void Player::Close(vector<string>& action)
 {
-	bool found = false;
-	for each (Entity* entity in m_Contains)
-	{
-		if (entity->GetType() == ITEM)
-		{
-			string itemName = entity->GetName();
-			if (itemName == action[1])
-			{
-				Item* item = (Item*)entity;
-				item->Close();
-				found = true;
-			}
-		}
+	Entity* entity = GetItem(action[1], false);
+
+	if (entity == NULL) {
+		entity = m_Location->GetItem(action[1], false);
 	}
 
-	Entity* roomEntity = m_Location->GetItem(action[1], false);
-	if (roomEntity != NULL)
+	if (entity == NULL)
 	{
-		Item* roomItem = (Item*)roomEntity;
-		roomItem->Close();
-		found = true;
+		cout << "There is no " << action[1] << " in the room or in your inventory.";
 	}
-
-	if (!found)
+	else
 	{
-		cout << "There is not " << action[1] << " in the room or in your inventory.";
+		Item* item = (Item*)entity;
+		item->Close();
 	}
 }
 
 
-Entity* Player::GetItem(string name)
+Entity* Player::GetItem(string name, bool remove)
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -217,7 +256,10 @@ Entity* Player::GetItem(string name)
 			string itemName = entity->GetName();
 			if (itemName == name)
 			{
-				m_Contains.remove(entity);
+				if (remove)
+				{
+					m_Contains.remove(entity);
+				}
 				return entity;
 			}
 		}
