@@ -151,37 +151,44 @@ void Player::Drop(vector<string>& action)
 	//Drop something into something
 	else if (action.size() == 4)
 	{
-		Entity* playerItem = GetItem(action[1], false);
-		if (playerItem == NULL)
+		if (action[1] != action[3]) 
 		{
-			cout << "You don't have " << action[1] << " in your inventory.\n";
-			return;
-		}
-
-		Entity* containerItem = NULL;
-		containerItem = GetItem(action[3], false);
-
-		if (containerItem == NULL) {
-			Entity* roomEntity = m_Location->GetItem(action[3], false);
-
-			if (roomEntity == NULL)
+			Entity* playerItem = GetItem(action[1], false);
+			if (playerItem == NULL)
 			{
-				cout << "There is no " << action[3] << " in the room or in your inventory.";
+				cout << "You don't have " << action[1] << " in your inventory.\n";
 				return;
 			}
-			containerItem = roomEntity;
-		}
 
-		Item* item = (Item*)containerItem;
-		if (item->IsOpen()) 
-		{
-			containerItem->AddEntity(playerItem);
-			m_Contains.remove(playerItem);
-			cout << "You put the " << action[1] << " into the " << action[3] << ".";
+			Entity* containerItem = NULL;
+			containerItem = GetItem(action[3], false);
+
+			if (containerItem == NULL) {
+				Entity* roomEntity = m_Location->GetItem(action[3], false);
+
+				if (roomEntity == NULL)
+				{
+					cout << "There is no " << action[3] << " in the room or in your inventory.";
+					return;
+				}
+				containerItem = roomEntity;
+			}
+
+			Item* item = (Item*)containerItem;
+			if (item->IsOpen())
+			{
+				containerItem->AddEntity(playerItem);
+				m_Contains.remove(playerItem);
+				cout << "You put the " << action[1] << " into the " << action[3] << ".";
+			}
+			else
+			{
+				cout << "The " << action[3] << " is closed. Open it first.";
+			}
 		}
 		else 
 		{
-			cout << "The " << action[3] << " is closed. Open it first.";
+			cout << "You can't put an object inside himself. Are you crazy?";
 		}
 	}
 }
