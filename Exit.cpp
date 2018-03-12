@@ -108,3 +108,44 @@ bool Exit::Close()
 		return false;
 	}
 }
+
+
+bool Exit::Unlock()
+{
+	if (m_IsLockable)
+	{
+		if (m_IsLocked)
+		{
+			m_IsLocked = false;
+			cout << "You unlock the door";
+			return true;
+		}
+		else
+		{
+			cout << "The door is already unlocked.";
+			return true;
+		}
+	}
+	return false;
+}
+
+
+bool Exit::Lock()
+{
+	if (m_IsLockable)
+	{
+		if (m_IsLocked)
+		{
+			cout << "The door is already locked.";
+			return true;
+		}
+		else
+		{
+			m_IsLocked = true;
+			m_IsOpen = false;
+			cout << "You lock the door";
+			return true;
+		}
+	}
+	return false;
+}

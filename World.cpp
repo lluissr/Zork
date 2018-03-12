@@ -16,7 +16,7 @@ World::World()
 	entities.push_back(pKitchen);
 
 	//Exits
-	Exit* pExit = new Exit("door", "made of wood", NORTH, pEntrance, pLivingRoom, false, false, true);
+	Exit* pExit = new Exit("door", "made of wood", NORTH, pEntrance, pLivingRoom, false, true, true);
 	Exit* pExit2 = new Exit("passage", "", WEST, pLivingRoom, pKitchen, true, false, false);
 	
 	entities.push_back(pExit);

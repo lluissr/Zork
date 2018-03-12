@@ -24,5 +24,7 @@ public:
 	bool IsOpen();
 	bool Open();
 	bool Close();
+	bool Unlock();
+	bool Lock();
 };
 

@@ -113,3 +113,37 @@ void Room::CloseDoor()
 	}
 	cout << "There is no door in the room that can be closed";
 }
+
+
+void Room::UnlockDoor()
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == EXIT)
+		{
+			Exit* pExit = (Exit*)entity;
+			if (pExit->Unlock())
+			{
+				return;
+			}
+		}
+	}
+	cout << "There is no door in the room that can be unlock";
+}
+
+
+void Room::LockDoor()
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == EXIT)
+		{
+			Exit* pExit = (Exit*)entity;
+			if (pExit->Lock())
+			{
+				return;
+			}
+		}
+	}
+	cout << "There is no door in the room that can be lock";
+}

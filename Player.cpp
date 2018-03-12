@@ -22,7 +22,7 @@ void Player::PerformAction(vector<string>& action)
 		Go(action);
 	}
 	//Get Item
-	else if ((action[0] == "take" || action[0] == "get") && action.size() > 1)
+	else if ((action[0] == "take" || action[0] == "get" || action[0] == "pick") && action.size() > 1)
 	{
 		Take(action);
 	}
@@ -46,10 +46,20 @@ void Player::PerformAction(vector<string>& action)
 	{
 		Close(action);
 	}
+	//UnLook door with item
+	else if (action[0] == "unlock" && action.size() > 3)
+	{
+		Unlock(action);
+	}
+	//Look door with item
+	else if (action[0] == "lock" && action.size() > 3)
+	{
+		Lock(action);
+	}
 	//Incorrect action
 	else
 	{
-		cout << "Incorrect command\n";
+		cout << "I don't understand this action\n";
 	}
 }
 
@@ -280,6 +290,46 @@ void Player::Close(vector<string>& action)
 	{
 		m_Location->CloseDoor();
 	}
+}
+
+
+void Player::Unlock(vector<string>& action)
+{
+
+	if (action[3] != "key")
+	{
+		cout << "You only can unlock a door whit a key.";
+		return;
+	}
+
+	Entity* playerItem = GetItem(action[3], false);
+	if (playerItem == NULL)
+	{
+		cout << "You don't have " << action[3] << " in your inventory.\n";
+		return;
+	}
+
+
+	m_Location->UnlockDoor();
+}
+
+
+void Player::Lock(vector<string>& action)
+{
+	if (action[3] != "key")
+	{
+		cout << "You only can unlock a door whit a key.";
+		return;
+	}
+
+	Entity* playerItem = GetItem(action[3], false);
+	if (playerItem == NULL)
+	{
+		cout << "You don't have " << action[3] << " in your inventory.\n";
+		return;
+	}
+
+	m_Location->LockDoor();
 }
 
 

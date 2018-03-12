@@ -15,6 +15,9 @@ private:
 	void Inventory();
 	void Open(vector<string>& action);
 	void Close(vector<string>& action);
+	void Unlock(vector<string>& action);
+	void Lock(vector<string>& action);
+
 public:
 	Player(string name, string description, Room* room);
 	void PerformAction(vector<string>& action);
