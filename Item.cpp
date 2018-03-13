@@ -1,11 +1,13 @@
 #include "Item.h"
 
 
-Item::Item(string name, string description, Room* room, Item* container, bool openable, bool isOpen, Exit* exit) :Entity(name, description)
+Item::Item(string name, string description, Room* room, Item* container, bool openable, bool isOpen, Exit* exit, bool movable) :Entity(name, description)
 {
 	m_Type = ITEM;
 	m_IsOpen = isOpen;
 	m_Openable = openable;
+	m_IsMovable = movable;
+
 	if (room != NULL)
 	{
 		room->AddEntity(this);
@@ -94,6 +96,11 @@ bool Item::IsOpenable()
 	return m_Openable;
 }
 
+
+bool Item::IsMovable()
+{
+	return m_IsMovable;
+}
 
 Entity* Item::GetContainingItem(string name)
 {

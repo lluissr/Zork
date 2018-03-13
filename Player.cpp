@@ -137,11 +137,7 @@ void Player::Take(vector<string>& action)
 {
 	Entity* item = m_Location->GetItem(action[1], true);
 
-	if (item == NULL)
-	{
-		cout << "There is not " << action[1] << ".\n";
-	}
-	else
+	if (item != NULL)
 	{
 		m_Contains.push_back(item);
 		cout << "Taken.\n";

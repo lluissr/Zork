@@ -59,11 +59,19 @@ Entity* Room::GetItem(string name, bool remove)
 			string itemName = entity->GetName();
 			if (itemName == name)
 			{
-				if (remove) 
+				if (((Item*)entity)->IsMovable())
 				{
-					m_Contains.remove(entity);
+					if (remove)
+					{
+						m_Contains.remove(entity);
+					}
+					return entity;
 				}
-				return entity;
+				else
+				{
+					cout << "You can't carry this";
+					return NULL;
+				}
 			}
 			else
 			{
@@ -76,6 +84,7 @@ Entity* Room::GetItem(string name, bool remove)
 			}
 		}
 	}
+	cout << "There is not " << name << ".\n";
 	return NULL;
 }
 

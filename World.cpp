@@ -31,17 +31,20 @@ World::World()
 	entities.push_back(pExit4);
 
 	//Items
-	Item* pBox = new Item("box", "made of steel", pBedroom, NULL, true, false, NULL);
-	Item* pBread = new Item("bread", "very nutritional", NULL, pBox, false, false, NULL);
-	Item* pBottle = new Item("bottle", "full of water", pLivingRoom, NULL, true, false, NULL);
-	Item* pKey = new Item("key", "", pEntrance, NULL, false, false, pExit);
-	Item* pPassword = new Item("password", "paper with letters in it", pKitchen, NULL, false, false, pExit3);
+	Item* pBox = new Item("box", "made of steel", pBedroom, NULL, true, false, NULL, true);
+	Item* pBread = new Item("bread", "very nutritional", NULL, pBox, false, false, NULL, true);
+	Item* pBottle = new Item("bottle", "full of water", pLivingRoom, NULL, true, false, NULL, true);
+	Item* pKey = new Item("key", "", pEntrance, NULL, false, false, pExit, true);
+	Item* pPassword = new Item("password", "written in a paper", pKitchen, NULL, false, false, pExit3, true);
+	Item* pOven = new Item("oven", "that is very old", pEntrance, NULL, false, false, NULL, false);
+
 
 	entities.push_back(pBox);
 	entities.push_back(pBread);
 	entities.push_back(pBottle);
 	entities.push_back(pKey);
 	entities.push_back(pPassword);
+	entities.push_back(pOven);
 
 	//Player
 	pPlayer = new Player("Pepe", "Person", pEntrance);
