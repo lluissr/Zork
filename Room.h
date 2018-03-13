@@ -15,6 +15,6 @@ public:
 	Entity* GetItem(string itemName, bool remove);
 	void OpenDoor();
 	void CloseDoor();
-	void UnlockDoor();
-	void LockDoor();
+	void UnlockDoor(Entity* key);
+	void LockDoor(Entity* key);
 };

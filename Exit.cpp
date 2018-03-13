@@ -70,7 +70,7 @@ bool Exit::Open()
 		}
 		else if (m_IsLocked)
 		{
-			cout << "The door is locked. It seems that you need a key.";
+			cout << "The door is locked. It seems that you need a " << m_Contains.front()->GetName() << ".";
 			return true;
 		}
 		else
@@ -110,9 +110,9 @@ bool Exit::Close()
 }
 
 
-bool Exit::Unlock()
+bool Exit::Unlock(Entity* key)
 {
-	if (m_IsLockable)
+	if (m_IsLockable && (find(m_Contains.begin(), m_Contains.end(), key) != m_Contains.end()))
 	{
 		if (m_IsLocked)
 		{
@@ -130,9 +130,9 @@ bool Exit::Unlock()
 }
 
 
-bool Exit::Lock()
+bool Exit::Lock(Entity* key)
 {
-	if (m_IsLockable)
+	if (m_IsLockable && (find(m_Contains.begin(), m_Contains.end(), key) != m_Contains.end()))
 	{
 		if (m_IsLocked)
 		{

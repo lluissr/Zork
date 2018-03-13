@@ -115,35 +115,35 @@ void Room::CloseDoor()
 }
 
 
-void Room::UnlockDoor()
+void Room::UnlockDoor(Entity* key)
 {
 	for each (Entity* entity in m_Contains)
 	{
 		if (entity->GetType() == EXIT)
 		{
 			Exit* pExit = (Exit*)entity;
-			if (pExit->Unlock())
+			if (pExit->Unlock(key))
 			{
 				return;
 			}
 		}
 	}
-	cout << "There is no door in the room that can be unlock";
+	cout << "There is no door in the room that can be unlock with " << key->GetName() << ".";
 }
 
 
-void Room::LockDoor()
+void Room::LockDoor(Entity* key)
 {
 	for each (Entity* entity in m_Contains)
 	{
 		if (entity->GetType() == EXIT)
 		{
 			Exit* pExit = (Exit*)entity;
-			if (pExit->Lock())
+			if (pExit->Lock(key))
 			{
 				return;
 			}
 		}
 	}
-	cout << "There is no door in the room that can be lock";
+	cout << "There is no door in the room that can be lock " << key->GetName() << ".";
 }

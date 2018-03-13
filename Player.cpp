@@ -295,13 +295,6 @@ void Player::Close(vector<string>& action)
 
 void Player::Unlock(vector<string>& action)
 {
-
-	if (action[3] != "key")
-	{
-		cout << "You only can unlock a door whit a key.";
-		return;
-	}
-
 	Entity* playerItem = GetItem(action[3], false);
 	if (playerItem == NULL)
 	{
@@ -310,18 +303,12 @@ void Player::Unlock(vector<string>& action)
 	}
 
 
-	m_Location->UnlockDoor();
+	m_Location->UnlockDoor(playerItem);
 }
 
 
 void Player::Lock(vector<string>& action)
 {
-	if (action[3] != "key")
-	{
-		cout << "You only can unlock a door whit a key.";
-		return;
-	}
-
 	Entity* playerItem = GetItem(action[3], false);
 	if (playerItem == NULL)
 	{
@@ -329,7 +316,7 @@ void Player::Lock(vector<string>& action)
 		return;
 	}
 
-	m_Location->LockDoor();
+	m_Location->LockDoor(playerItem);
 }
 
 

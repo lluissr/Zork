@@ -24,7 +24,7 @@ public:
 	bool IsOpen();
 	bool Open();
 	bool Close();
-	bool Unlock();
-	bool Lock();
+	bool Unlock(Entity* key);
+	bool Lock(Entity* key);
 };
 

@@ -1,7 +1,7 @@
 #include "Item.h"
 
 
-Item::Item(string name, string description, Room* room, Item* container, bool openable, bool isOpen) :Entity(name, description)
+Item::Item(string name, string description, Room* room, Item* container, bool openable, bool isOpen, Exit* exit) :Entity(name, description)
 {
 	m_Type = ITEM;
 	m_IsOpen = isOpen;
@@ -13,6 +13,10 @@ Item::Item(string name, string description, Room* room, Item* container, bool op
 	if (container != NULL)
 	{
 		container->AddEntity(this);
+	}
+	if (exit != NULL)
+	{
+		exit->AddEntity(this);
 	}
 }
 
