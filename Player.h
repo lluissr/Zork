@@ -17,8 +17,9 @@ private:
 	void Close(vector<string>& action);
 	void Unlock(vector<string>& action);
 	void Lock(vector<string>& action);
+	bool Sit();
 
 public:
 	Player(string name, string description, Room* room);
-	void PerformAction(vector<string>& action);
+	bool PerformAction(vector<string>& action);
 };

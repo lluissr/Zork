@@ -89,6 +89,24 @@ Entity* Room::GetItem(string name, bool remove)
 }
 
 
+Entity* Room::ExistItem(string name)
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == ITEM)
+		{
+			string itemName = entity->GetName();
+			if (itemName == name)
+			{
+				return entity;
+			}
+		}
+	}
+	cout << "There is not " << name << ".\n";
+	return NULL;
+}
+
+
 void Room::OpenDoor()
 {
 	for each (Entity* entity in m_Contains)

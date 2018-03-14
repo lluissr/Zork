@@ -8,7 +8,7 @@ Player::Player(string name, string description, Room* room) :Entity(name, descri
 }
 
 
-void Player::PerformAction(vector<string>& action)
+bool Player::PerformAction(vector<string>& action)
 {
 
 	//Look something
@@ -56,11 +56,16 @@ void Player::PerformAction(vector<string>& action)
 	{
 		Lock(action);
 	}
+	else if (action[0] == "sit" )
+	{
+		return Sit();
+	}
 	//Incorrect action
 	else
 	{
 		cout << "I don't understand this action\n";
 	}
+	return false;
 }
 
 
@@ -80,14 +85,10 @@ void Player::Look(vector<string>& action)
 		Entity* entity = GetItem(action[1], false);
 
 		if (entity == NULL) {
-			entity = m_Location->GetItem(action[1], false);
+			entity = m_Location->ExistItem(action[1]);
 		}
 
-		if (entity == NULL)
-		{
-			cout << "There is no " << action[1] << ".";
-		}
-		else
+		if (entity != NULL)
 		{
 			Item* item = (Item*)entity;
 			item->Look();
@@ -241,14 +242,10 @@ void Player::Open(vector<string>& action)
 		Entity* entity = GetItem(action[1], false);
 
 		if (entity == NULL) {
-			entity = m_Location->GetItem(action[1], false);
+			entity = m_Location->ExistItem(action[1]);
 		}
 
-		if (entity == NULL)
-		{
-			cout << "There is no " << action[1] << " in the room or in your inventory.";
-		}
-		else
+		if (entity != NULL)
 		{
 			Item* item = (Item*)entity;
 			item->Open();
@@ -269,14 +266,10 @@ void Player::Close(vector<string>& action)
 		Entity* entity = GetItem(action[1], false);
 
 		if (entity == NULL) {
-			entity = m_Location->GetItem(action[1], false);
+			entity = m_Location->ExistItem(action[1]);
 		}
 
-		if (entity == NULL)
-		{
-			cout << "There is no " << action[1] << " in the room or in your inventory.";
-		}
-		else
+		if (entity != NULL)
 		{
 			Item* item = (Item*)entity;
 			item->Close();
@@ -313,6 +306,37 @@ void Player::Lock(vector<string>& action)
 	}
 
 	m_Location->LockDoor(playerItem);
+}
+
+
+bool Player::Sit()
+{
+	if (m_Location->GetName() == "Bathroom")
+	{
+		Entity* toilet = m_Location->ExistItem("toilet");
+		if (((Item*)toilet)->IsOpen())
+		{
+			if (GetItem("paper", false) != NULL)
+			{
+				cout << "You sit in the toilet and finally rest calmly.";
+				return true;
+			}
+			else
+			{
+				cout << "You have to find paper before sit or it will be a mess later.";
+			}
+		}
+		else
+		{
+			cout << "Open the toilet before sit.";
+		}
+	}
+	else
+	{
+		cout << "You are not in the bathroom. You can't sit or it will be impossible to get up again.";
+	}
+
+	return false;
 }
 
 

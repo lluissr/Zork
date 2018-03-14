@@ -13,6 +13,7 @@ public:
 	void Look();
 	Exit* GetExit(string direction);
 	Entity* GetItem(string itemName, bool remove);
+	Entity* ExistItem(string itemName);
 	void OpenDoor();
 	void CloseDoor();
 	void UnlockDoor(Entity* key);

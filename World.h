@@ -15,11 +15,18 @@ class World
 {
 
 private:
-	vector<Entity*> entities;
+	vector<Entity*> m_Entities;
 	Player* pPlayer;
+	int m_MaxNumberOfTurns = 30;
+	int m_NumberOfTurnsPlayed = 0;
+	bool m_Playing = true;
+	void RestartGame();
+	vector<string> GetTokens(string action);
+	void PrepareEntitiesForNewGame();
+	void AddIntroduction();
 
 public:
 	World();
 	void Run();
-	void ExecuteAction(vector<string>& action);
+	
 };
