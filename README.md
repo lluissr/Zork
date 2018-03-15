@@ -148,4 +148,4 @@ This counter will increment everytime you do an action. And you can only do 30 a
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
