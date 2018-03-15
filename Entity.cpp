@@ -1,26 +1,26 @@
 #include "Entity.h"
 
 
-Entity::Entity(string name, string description)
+Entity::Entity(const string name, const string description)
 {
 	m_Name = name;
 	m_Description = description;
 }
 
 
-EntityType Entity::GetType()
+EntityType Entity::GetType() const
 {
 	return m_Type;
 }
 
 
-string Entity::GetName()
+string Entity::GetName() const
 {
 	return m_Name;
 }
 
 
-string Entity::GetDescription()
+string Entity::GetDescription() const
 {
 	return m_Description;
 }

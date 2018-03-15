@@ -1,7 +1,7 @@
 #include "Item.h"
 
 
-Item::Item(string name, string description, Room* room, Item* container, bool openable, bool isOpen, Exit* exit, bool movable) :Entity(name, description)
+Item::Item(const string name, const string description, Room* room, Item* container, bool openable, bool isOpen, Exit* exit, bool movable) :Entity(name, description)
 {
 	m_Type = ITEM;
 	m_IsOpen = isOpen;
@@ -23,7 +23,7 @@ Item::Item(string name, string description, Room* room, Item* container, bool op
 }
 
 
-void Item::Look()
+void Item::Look() const
 {
 	cout << "\nThere is a " << m_Name << " " << m_Description;
 	if (m_Contains.size() > 0 && m_IsOpen)
@@ -85,19 +85,19 @@ void Item::Close()
 }
 
 
-bool Item::IsOpen()
+bool Item::IsOpen() const
 {
 	return m_IsOpen;
 }
 
 
-bool Item::IsOpenable()
+bool Item::IsOpenable() const
 {
 	return m_Openable;
 }
 
 
-bool Item::IsMovable()
+bool Item::IsMovable() const
 {
 	return m_IsMovable;
 }

@@ -44,7 +44,7 @@ void World::Run()
 		}
 
 		//Getting user input
-		cout << "-- " << m_NumberOfTurnsPlayed << "/" << m_MaxNumberOfTurns <<" actions\n";
+		cout << "-- " << m_NumberOfTurnsPlayed << "/" << MAX_NUMBER_OF_TURNS <<" actions\n";
 		cout << ">";
 		getline(cin, action);
 
@@ -79,7 +79,7 @@ void World::Run()
 
 		m_NumberOfTurnsPlayed++;
 
-		if (m_NumberOfTurnsPlayed >= m_MaxNumberOfTurns && m_Playing)
+		if (m_NumberOfTurnsPlayed >= MAX_NUMBER_OF_TURNS && m_Playing)
 		{
 			m_Playing = false;
 			cout << "You have run out of time!! What a mess!!\n\nYOU LOSE\n\n";
@@ -93,7 +93,6 @@ void World::Run()
 
 void World::RestartGame()
 {
-	m_MaxNumberOfTurns = 30;
 	m_NumberOfTurnsPlayed = 0;
 	m_Playing = true;
 	PrepareEntitiesForNewGame();
@@ -170,7 +169,7 @@ void World::PrepareEntitiesForNewGame()
 	m_Entities.push_back(pToilet);
 
 	//Player
-	pPlayer = new Player("Pepe", "Person", pEntrance);
+	pPlayer = new Player("Pepe", "I have a bath urge", pEntrance);
 
 	m_Entities.push_back(pPlayer);
 }

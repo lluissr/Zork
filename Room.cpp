@@ -1,13 +1,13 @@
 #include "Room.h"
 
 
-Room::Room(string name, string description) : Entity(name, description)
+Room::Room(const string name, const string description) : Entity(name, description)
 {
 	m_Type = ROOM;
 }
 
 
-void Room::Look()
+void Room::Look() const
 {
 	cout << "\n" << m_Name << "\n" << m_Description << ".";
 
@@ -31,7 +31,7 @@ void Room::Look()
 }
 
 
-Exit* Room::GetExit(string direction)
+Exit* Room::GetExit(const string direction) const
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -50,7 +50,7 @@ Exit* Room::GetExit(string direction)
 }
 
 
-Entity* Room::GetItem(string name, bool remove)
+Entity* Room::GetItem(const string name, const bool remove)
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -89,7 +89,7 @@ Entity* Room::GetItem(string name, bool remove)
 }
 
 
-Entity* Room::ExistItem(string name)
+Entity* Room::ExistItem(const string name) const
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -102,12 +102,28 @@ Entity* Room::ExistItem(string name)
 			}
 		}
 	}
-	cout << "There is not " << name << ".\n";
+	
 	return NULL;
 }
 
+Entity* Room::ExistExit(const string name) const
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == EXIT)
+		{
+			string itemName = entity->GetName();
+			if (itemName == name)
+			{
+				return entity;
+			}
+		}
+	}
 
-void Room::OpenDoor()
+	return NULL;
+}
+
+void Room::OpenDoor() const
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -125,7 +141,7 @@ void Room::OpenDoor()
 }
 
 
-void Room::CloseDoor()
+void Room::CloseDoor() const
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -142,7 +158,7 @@ void Room::CloseDoor()
 }
 
 
-void Room::UnlockDoor(Entity* key)
+void Room::UnlockDoor(Entity* key) const
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -159,7 +175,7 @@ void Room::UnlockDoor(Entity* key)
 }
 
 
-void Room::LockDoor(Entity* key)
+void Room::LockDoor(Entity* key) const
 {
 	for each (Entity* entity in m_Contains)
 	{

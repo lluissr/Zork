@@ -17,10 +17,11 @@ private:
 	bool m_IsLockable;
 
 public:
-	Exit(string name, string description, Direction direction, Room* source, Room* destination, bool open, bool locked, bool lockable);
-	void Look(Room* room);
-	string GetExitDirection(Room* room);
-	Room* GetDestinationRoom(Room* room);
+	Exit(const string name, const string description, Direction direction, Room* source, Room* destination, bool open, bool locked, bool lockable);
+	void Look(const Room* room) const;
+	void Look() const;
+	string GetExitDirection(const Room* room) const;
+	Room* GetDestinationRoom(const Room* room) const;
 	bool IsOpen();
 	bool Open();
 	bool Close();

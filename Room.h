@@ -9,13 +9,14 @@ class Item;
 class Room : public Entity
 {
 public:
-	Room(string name, string description);
-	void Look();
-	Exit* GetExit(string direction);
-	Entity* GetItem(string itemName, bool remove);
-	Entity* ExistItem(string itemName);
-	void OpenDoor();
-	void CloseDoor();
-	void UnlockDoor(Entity* key);
-	void LockDoor(Entity* key);
+	Room(const string name, const string description);
+	void Look() const;
+	Exit* GetExit(const string direction) const;
+	Entity* GetItem(const string itemName, const bool remove);
+	Entity* ExistItem(const string itemName) const;
+	Entity* ExistExit(const string exitName) const;
+	void OpenDoor() const;
+	void CloseDoor() const;
+	void UnlockDoor(Entity* key) const;
+	void LockDoor(Entity* key) const;
 };

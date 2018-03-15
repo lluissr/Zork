@@ -17,7 +17,7 @@ class World
 private:
 	vector<Entity*> m_Entities;
 	Player* pPlayer;
-	int m_MaxNumberOfTurns = 30;
+	const int MAX_NUMBER_OF_TURNS = 30;
 	int m_NumberOfTurnsPlayed = 0;
 	bool m_Playing = true;
 	void RestartGame();

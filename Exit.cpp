@@ -1,7 +1,7 @@
 #include "Exit.h"
 
 
-Exit::Exit(string name, string description, Direction direction, Room* source , Room* destination, bool open, bool locked, bool lockable) :Entity(name, description)
+Exit::Exit(const string name, const string description, Direction direction, Room* source , Room* destination, bool open, bool locked, bool lockable) :Entity(name, description)
 {
 	m_Type = EXIT;
 	m_Direction = direction;
@@ -16,12 +16,19 @@ Exit::Exit(string name, string description, Direction direction, Room* source , 
 }
 
 
-void Exit::Look(Room* room)
+void Exit::Look(const Room* room) const
 {
 	cout << "\nThere is a " << m_Name << " " << m_Description << " in the " << GetExitDirection(room) << " part of the room.";
 }
 
-string Exit::GetExitDirection(Room* room)
+
+void Exit::Look() const
+{
+	cout << "\nThere is a " << m_Name << " " << m_Description << " in the room.";
+}
+
+
+string Exit::GetExitDirection(const Room* room) const
 {
 	bool fromSource = room == m_Source;
 
@@ -40,7 +47,7 @@ string Exit::GetExitDirection(Room* room)
 }
 
 
-Room* Exit::GetDestinationRoom(Room* room)
+Room* Exit::GetDestinationRoom(const Room* room) const
 {
 	if (room == m_Source)
 	{

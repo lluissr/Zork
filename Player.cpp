@@ -1,7 +1,7 @@
 #include "Player.h"
 
 
-Player::Player(string name, string description, Room* room) :Entity(name, description)
+Player::Player(const string name, const string description, Room* room) :Entity(name, description)
 {
 	m_Type = PLAYER;
 	m_Location = room;
@@ -56,7 +56,7 @@ bool Player::PerformAction(vector<string>& action)
 	{
 		Lock(action);
 	}
-	else if (action[0] == "sit" )
+	else if (action[0] == "sit")
 	{
 		return Sit();
 	}
@@ -72,17 +72,21 @@ bool Player::PerformAction(vector<string>& action)
 //--Private Methods
 
 
-void Player::Look(vector<string>& action)
+void Player::Look(const vector<string>& action) const
 {
 	//Look arround
 	if (action.size() == 1)
 	{
 		m_Location->Look();
 	}
-	//Look specific object
-	else if (action.size() > 1)
+	//Look myself
+	else if (action.size() > 1 && action[1] == "myself")
 	{
-		Entity* entity = GetItem(action[1], false);
+		Look();
+	}
+	//Look specific object
+	else {
+		Entity* entity = HasItem(action[1]);
 
 		if (entity == NULL) {
 			entity = m_Location->ExistItem(action[1]);
@@ -93,7 +97,21 @@ void Player::Look(vector<string>& action)
 			Item* item = (Item*)entity;
 			item->Look();
 		}
+		else
+		{
+			entity = m_Location->ExistExit(action[1]);
+			if (entity != NULL)
+			{
+				Exit* exit = (Exit*)entity;
+				exit->Look();
+			}
+			else
+			{
+				cout << "There is not " << action[1] << ".\n";
+			}
+		}
 	}
+
 }
 
 
@@ -134,7 +152,7 @@ void Player::Go(vector<string>& action)
 }
 
 
-void Player::Take(vector<string>& action)
+void Player::Take(const vector<string>& action)
 {
 	Entity* item = m_Location->GetItem(action[1], true);
 
@@ -146,12 +164,12 @@ void Player::Take(vector<string>& action)
 }
 
 
-void Player::Drop(vector<string>& action)
+void Player::Drop(const vector<string>& action)
 {
 	//Drop something into room
 	if (action.size() == 2)
 	{
-		Entity* item = GetItem(action[1], true);
+		Entity* item = GetItem(action[1]);
 		if (item == NULL)
 		{
 			cout << "You don't have " << action[1] << " in your inventory.\n";
@@ -165,9 +183,9 @@ void Player::Drop(vector<string>& action)
 	//Drop something into something
 	else if (action.size() == 4)
 	{
-		if (action[1] != action[3]) 
+		if (action[1] != action[3])
 		{
-			Entity* playerItem = GetItem(action[1], false);
+			Entity* playerItem = HasItem(action[1]);
 			if (playerItem == NULL)
 			{
 				cout << "You don't have " << action[1] << " in your inventory.\n";
@@ -175,10 +193,10 @@ void Player::Drop(vector<string>& action)
 			}
 
 			Entity* containerItem = NULL;
-			containerItem = GetItem(action[3], false);
+			containerItem = HasItem(action[3]);
 
 			if (containerItem == NULL) {
-				Entity* roomEntity = m_Location->GetItem(action[3], false);
+				Entity* roomEntity = m_Location->ExistItem(action[3]);
 
 				if (roomEntity == NULL)
 				{
@@ -201,13 +219,13 @@ void Player::Drop(vector<string>& action)
 				{
 					cout << "The " << action[3] << " is closed. Open it first.";
 				}
-			} 
+			}
 			else
 			{
 				cout << "You can't put anything inside " << action[3] << ".";
 			}
 		}
-		else 
+		else
 		{
 			cout << "You can't put an object inside himself. Are you crazy?";
 		}
@@ -215,7 +233,7 @@ void Player::Drop(vector<string>& action)
 }
 
 
-void Player::Inventory()
+void Player::Inventory() const
 {
 	if (m_Contains.size() == 0)
 	{
@@ -235,11 +253,11 @@ void Player::Inventory()
 }
 
 
-void Player::Open(vector<string>& action)
+void Player::Open(const vector<string>& action) const
 {
 	if (action[1] != "door")
 	{
-		Entity* entity = GetItem(action[1], false);
+		Entity* entity = HasItem(action[1]);
 
 		if (entity == NULL) {
 			entity = m_Location->ExistItem(action[1]);
@@ -258,12 +276,12 @@ void Player::Open(vector<string>& action)
 }
 
 
-void Player::Close(vector<string>& action)
+void Player::Close(const vector<string>& action) const
 {
 	if (action[1] != "door")
 	{
 
-		Entity* entity = GetItem(action[1], false);
+		Entity* entity = HasItem(action[1]);
 
 		if (entity == NULL) {
 			entity = m_Location->ExistItem(action[1]);
@@ -282,9 +300,9 @@ void Player::Close(vector<string>& action)
 }
 
 
-void Player::Unlock(vector<string>& action)
+void Player::Unlock(const vector<string>& action) const
 {
-	Entity* playerItem = GetItem(action[3], false);
+	Entity* playerItem = HasItem(action[3]);
 	if (playerItem == NULL)
 	{
 		cout << "You don't have " << action[3] << " in your inventory.\n";
@@ -296,9 +314,9 @@ void Player::Unlock(vector<string>& action)
 }
 
 
-void Player::Lock(vector<string>& action)
+void Player::Lock(const vector<string>& action) const
 {
-	Entity* playerItem = GetItem(action[3], false);
+	Entity* playerItem = HasItem(action[3]);
 	if (playerItem == NULL)
 	{
 		cout << "You don't have " << action[3] << " in your inventory.\n";
@@ -309,14 +327,14 @@ void Player::Lock(vector<string>& action)
 }
 
 
-bool Player::Sit()
+bool Player::Sit() const
 {
 	if (m_Location->GetName() == "Bathroom")
 	{
 		Entity* toilet = m_Location->ExistItem("toilet");
 		if (((Item*)toilet)->IsOpen())
 		{
-			if (GetItem("paper", false) != NULL)
+			if (HasItem("paper") != NULL)
 			{
 				cout << "You sit in the toilet and finally rest calmly.";
 				return true;
@@ -340,7 +358,7 @@ bool Player::Sit()
 }
 
 
-Entity* Player::GetItem(string name, bool remove)
+Entity* Player::GetItem(const string name)
 {
 	for each (Entity* entity in m_Contains)
 	{
@@ -349,14 +367,35 @@ Entity* Player::GetItem(string name, bool remove)
 			string itemName = entity->GetName();
 			if (itemName == name)
 			{
-				if (remove)
-				{
-					m_Contains.remove(entity);
-				}
+				m_Contains.remove(entity);
 				return entity;
 			}
 		}
 	}
 
 	return NULL;
+}
+
+
+Entity* Player::HasItem(const string name) const
+{
+	for each (Entity* entity in m_Contains)
+	{
+		if (entity->GetType() == ITEM)
+		{
+			string itemName = entity->GetName();
+			if (itemName == name)
+			{
+				return entity;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+
+void Player::Look() const
+{
+	cout << "My name is " << m_Name << " and " << m_Description << ".";
 }

@@ -21,10 +21,10 @@ protected:
 
 public:
 
-	Entity(string name, string description);
-	//virtual void Update();
-	EntityType GetType();
-	string GetName();
-	string GetDescription();
+	Entity(const string name, const string description);
+	virtual void Look() const = 0;
+	EntityType GetType() const;
+	string GetName() const;
+	string GetDescription() const;
 	void AddEntity(Entity* entity);
 };
